@@ -80,8 +80,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    arm_lift_0.set(ControlMode.PercentOutput, stick_1.getY(Hand.kLeft));
-    arm_lift_0.set(ControlMode.PercentOutput, stick_1.getY(Hand.kLeft));
+    arm_lift_0.set(ControlMode.PercentOutput, -stick_1.getY(Hand.kLeft));
+    arm_lift_0.set(ControlMode.PercentOutput, -stick_1.getY(Hand.kLeft));
     claw_lift.set(0.5 * stick_1.getY(Hand.kRight));
     if (stick_1.getAButton()) {
       claw_open.set(Value.kForward);
@@ -115,6 +115,6 @@ public class Robot extends TimedRobot {
     }
     move(-stick_0.getY(Hand.kLeft), stick_0.getTriggerAxis(Hand.kLeft) - stick_0.getTriggerAxis(Hand.kRight));
     System.out.println("intake"+intake_angle.get());
-    System.out.println("arm"+arm_lift_0.getSelectedSensorPosition());
+    System.out.println("arm"+arm_lift_0.getSelectedSensorPosition(1));
   }
 }
