@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
   XboxController stick_1 = new XboxController(1);
 
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  Encoder intake_angle = new Encoder(0, 1);
+  Encoder intake_angle = new Encoder(2, 3);
 
   SpeedController chassis_left_0 = new WPI_VictorSPX(10);
   SpeedController chassis_left_1 = new WPI_VictorSPX(11);
@@ -53,14 +54,21 @@ public class Robot extends TimedRobot {
   SpeedController claw_lift = new Spark(6);
   DoubleSolenoid claw_open = new DoubleSolenoid(0, 1);
   Solenoid claw_push = new Solenoid(3);
+  
+  double intake_target = 30;
 
   boolean chassis_lift_state = false;
+
+  double intake_lower_limit = -29;
 
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    intake_lift.setInverted(true);
+    intake_angle.setReverseDirection(true);
   }
 
   public void move(double y, double z) {
@@ -73,9 +81,18 @@ public class Robot extends TimedRobot {
     */
   }
 
+  public void intake_set(double vel) {
+    if (intake_angle.get() < intake_lower_limit && vel < 0) {
+      intake_lift.set(0);
+    } else {
+      intake_lift.set(vel);
+    }
+  }
+
   @Override
   public void teleopInit() {
     chassis_lift_state = false;
+    intake_target = 30;
   }
 
   @Override
@@ -92,6 +109,7 @@ public class Robot extends TimedRobot {
     }
     claw_push.set(stick_1.getBButton());
 
+    /*
     if (stick_0.getBumper(Hand.kLeft)) {
       intake_collector.set(0.8);
     } else if (stick_0.getBumper(Hand.kRight)) {
@@ -99,8 +117,7 @@ public class Robot extends TimedRobot {
     } else {
       intake_collector.set(0);
     }
-
-    intake_lift.set(0.7 * stick_0.getY(Hand.kRight));
+    */
 
     if (stick_0.getAButton()) {
       chassis_lift_state = true;
@@ -111,10 +128,43 @@ public class Robot extends TimedRobot {
 
     if (chassis_lift_state) {
       chassis_roller.set(-stick_0.getY(Hand.kLeft));
-      intake_collector.set(-0.5 * stick_0.getY(Hand.kLeft));
+      intake_collector.set(-0.8 * stick_0.getY(Hand.kLeft));
     }
     move(-stick_0.getY(Hand.kLeft), stick_0.getTriggerAxis(Hand.kLeft) - stick_0.getTriggerAxis(Hand.kRight));
-    System.out.println("intake"+intake_angle.get());
-    System.out.println("arm"+arm_lift_0.getSelectedSensorPosition(1));
+    // System.out.println("intake"+intake_angle.get());
+
+    if (stick_0.getYButton()) {
+      intake_target = 30;
+    }
+    
+    double error = intake_target - intake_angle.get();
+    /** pid loop for intake */
+    double intake_pid = 0;
+    intake_pid += 0.1 * error;
+    System.out.println(intake_target);
+    SmartDashboard.putNumber("intake_target", intake_target);
+    SmartDashboard.putNumber("intake_pid", intake_pid);
+    SmartDashboard.putNumber("intake_error", error);
+    SmartDashboard.putNumber("intake_angle", intake_angle.get());
+    if (stick_0.getXButton()) {
+      if (Math.abs(stick_0.getY(Hand.kRight)) > 0.1) {
+        intake_target += 1 * -stick_0.getY(Hand.kRight);
+        if (intake_target < intake_lower_limit) {
+          intake_target = intake_lower_limit;
+        }
+      }
+      intake_set(intake_pid);
+    } else if (stick_0.getBackButton() || stick_0.getBumper(Hand.kLeft)) {
+      intake_set(-0.21 + 0.5 * -stick_0.getY(Hand.kRight));
+    } else {
+      intake_set(0.7 * -stick_0.getY(Hand.kRight));
+    }
+    // System.out.println("arm"+arm_lift_0.getSelectedSensorPosition(1));
+  }
+
+  @Override
+  public void testPeriodic() {
+    intake_angle.reset();
+    intake_lift.set(0.3 * -stick_0.getY(Hand.kRight));
   }
 }
