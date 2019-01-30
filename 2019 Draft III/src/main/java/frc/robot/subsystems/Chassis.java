@@ -15,29 +15,39 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
 import frc.robot.OI;
+import frc.robot.RobotMap;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Chassis extends Subsystem {
   
-  static private SpeedController left_motor_0 = new WPI_TalonSRX(10);
-  static private SpeedController left_motor_1 = new WPI_TalonSRX(11);
-  static private SpeedController left_motor_2 = new WPI_TalonSRX(12);
-  static private SpeedController right_motor_0 = new WPI_TalonSRX(13);
-  static private SpeedController right_motor_1 = new WPI_TalonSRX(14);
-  static private SpeedController right_motor_2 = new WPI_TalonSRX(15);
+  static private SpeedController left_motor_0 = new WPI_TalonSRX(RobotMap.p_chassis_left_0);
+  static private SpeedController left_motor_1 = new WPI_TalonSRX(RobotMap.p_chassis_left_1);
+  static private SpeedController left_motor_2 = new WPI_TalonSRX(RobotMap.p_chassis_left_2);
+  static private SpeedController right_motor_0 = new WPI_TalonSRX(RobotMap.p_chassis_right_0);
+  static private SpeedController right_motor_1 = new WPI_TalonSRX(RobotMap.p_chassis_right_1);
+  static private SpeedController right_motor_2 = new WPI_TalonSRX(RobotMap.p_chassis_right_2);
+  static private SpeedController roller_motor = new Spark(RobotMap.p_chassis_roller);
 
-  static private Solenoid chassis_lift = new Solenoid(2);
+  static private Solenoid chassis_lift = new Solenoid(RobotMap.p_lift);
 
-  public double y_speed = 1.0;
-  public double z_speed = 1.0;
+  public double global_y_speed;
+  public double global_z_speed;
 
-  public void setGear(double _y_speed, double _z_speed) {
-    y_speed = _y_speed;
-    z_speed = _z_speed;
+  public Chassis() {
+    reset();
+  }
+
+  public void reset() {
+    global_y_speed = 1.0;
+    global_z_speed = 1.0;
+  }
+
+  public void setSpeed(double y_speed, double z_speed) {
+    global_y_speed = y_speed;
+    global_z_speed = z_speed;
   }
 
   public void drive(double y, double z) {
@@ -45,14 +55,12 @@ public class Chassis extends Subsystem {
     right_motor_0.set(y - z);
   }
 
+  public void liftToggle(boolean state) {
+    chassis_lift.set(state);
+  }
+
   @Override
   public void initDefaultCommand() {
-    drive(OI.stick_0.getY(Hand.kLeft), OI.stick_0.getX(Hand.kRight));
-    
-    if (OI.stick_0.getBackButton()) {
-      chassis_lift.set(true);
-    } else {
-      chassis_lift.set(false);
-    }
+    drive(-OI.stick_0.getY(Hand.kLeft), OI.stick_0.getX(Hand.kRight));
   }
 }

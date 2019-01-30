@@ -13,33 +13,43 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.OI;
+import frc.robot.RobotMap;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class Collector extends Subsystem {
+public class Intake extends Subsystem {
   
-  static private SpeedController collector_lift_motor = new Spark(2);
-  static private SpeedController collector_motor = new Spark(3);
+  static private SpeedController collector_lift_motor = new Spark(RobotMap.p_intake_lift);
+  static private SpeedController collector_motor = new Spark(RobotMap.p_intake_collector);
 
-  public double collector_speed = 1.0;
-  public double collect_speed = 1.0;
+  public double global_lift_speed;
+  public double global_collect_speed;
 
-  public void setGear(double _collector_speed, double _collect_speed) {
-    collector_speed = _collector_speed;
-    collect_speed = _collect_speed;
+  public Intake() {
+    reset();
+  }
+
+  public void reset() {
+    global_lift_speed = 1.0;
+    global_collect_speed = 1.0;
+  }
+
+  public void setGear(double collector_speed, double collect_speed) {
+    global_lift_speed = collector_speed;
+    global_collect_speed = collect_speed;
   }
 
   public void collectorLiftAt(double vel) {
-    collector_lift_motor.set(collector_speed * vel);
+    collector_lift_motor.set(global_lift_speed * vel);
   }
 
-  public void collectorTurnAt(double vel) {
-    collector_motor.set(collect_speed * vel);
+  public void collectorRunAt(double vel) {
+    collector_motor.set(global_collect_speed * vel);
   }
 
   @Override
   public void initDefaultCommand() {
-    // collectorLiftAt(OI.stick_0.getY(Hand.kRight));
+    collectorLiftAt(-OI.stick_0.getY(Hand.kRight));
   }
 }

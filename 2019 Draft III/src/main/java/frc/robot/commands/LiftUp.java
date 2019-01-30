@@ -13,15 +13,17 @@ import frc.robot.Robot;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class ExampleCommand extends Command {
-  public ExampleCommand() {
+public class LiftUp extends Command {
+  public LiftUp() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.chassis);
+    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.lift_state = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
