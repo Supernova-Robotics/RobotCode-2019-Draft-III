@@ -9,37 +9,37 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.IntakeDefault;
+import frc.robot.commands.ChassisDefault;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class Intake extends Subsystem {
+public class Hook extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+  public Solenoid hook_extender = new Solenoid(4);
+  public Solenoid hook = new Solenoid(5);
   
-  public SpeedController motor_lift = new Spark(1);
-  public SpeedController motor_collector = new Spark(2);
-  
-  public double global_lift_speed = 0.8;
-  
-  public Intake() {
+  public Hook() {
     super();
-    motor_lift.setInverted(true);
-    motor_collector.setInverted(true);
+  }
+
+  public void toggleGrab(boolean state) {
+    hook.set(state);
+  }
+
+  public void toggleExtension(boolean state) {
+    hook_extender.set(state);
   }
   
-  public void liftAt(double vel) {
-    motor_lift.set(global_lift_speed * vel);
-  }
-
-  public void collectAt(double vel) {
-    motor_collector.set(vel);
-  }
-
+  
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new IntakeDefault());
   }
 }

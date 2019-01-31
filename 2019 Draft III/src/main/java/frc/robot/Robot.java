@@ -7,14 +7,16 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Hook;
 import frc.robot.subsystems.Intake;
 
 /**
@@ -25,12 +27,11 @@ import frc.robot.subsystems.Intake;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Chassis chassis;
-  public static Intake intake;
-  public static Arm arm;
-  public static OI oi;
-  public static boolean lift_state;
-  
+  public static Chassis chassis = new Chassis();
+  public static Arm arm = new Arm();
+  public static Intake intake = new Intake();
+  public static Hook hook = new Hook();
+  public static OI oi = new OI();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -41,13 +42,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    chassis = new Chassis();
-    intake = new Intake();
-    arm = new Arm();
-    oi = new OI();
-
-    /** Auto Period command initializer */
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    UsbCamera aliment_cam = CameraServer.getInstance().startAutomaticCapture(0);
+    UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);
+    driver_cam.setResolution(640, 480);
+    // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
@@ -57,11 +55,12 @@ public class Robot extends TimedRobot {
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
    *
-   * This runs after the mode specific periodic functions, but before
+   * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
+    arm.log();
   }
 
   /**
@@ -71,7 +70,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    lift_state = false;
   }
 
   @Override

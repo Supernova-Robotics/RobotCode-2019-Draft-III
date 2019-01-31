@@ -10,40 +10,32 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.HookExtend;
+import frc.robot.commands.HookGrab;
+import frc.robot.commands.IntakeStartCollect;
+import frc.robot.commands.IntakeStartPush;
+import frc.robot.commands.OpenClaw;
+import frc.robot.commands.PushClaw;
 
-import frc.robot.subsystems.Arm;
-
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  static public XboxController stick_0 = new XboxController(0);
-  static public XboxController stick_1 = new XboxController(1);
-  static public Button button = new JoystickButton(stick_0, 0);
+  public static final XboxController stick_0 = new XboxController(0);
+  public static final XboxController stick_1 = new XboxController(1);
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
+  public static Button stick_0_A = new JoystickButton(stick_0, 1);
+  public static Button stick_0_B = new JoystickButton(stick_0, 2);
+  public static Button stick_1_A = new JoystickButton(stick_1, 1);
+  public static Button stick_1_B = new JoystickButton(stick_1, 2);
+  public static Button stick_1_X = new JoystickButton(stick_1, 3);
+  public static Button stick_1_Y = new JoystickButton(stick_1, 4);
   
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
+  public OI() {
+    stick_0_A.toggleWhenPressed(new IntakeStartCollect());
+    stick_0_B.toggleWhenPressed(new IntakeStartPush());
+    
+    stick_1_A.whenPressed(new PushClaw());
+    stick_1_B.toggleWhenPressed(new OpenClaw());
+    stick_1_X.toggleWhenPressed(new HookExtend());
+    stick_1_Y.toggleWhenPressed(new HookGrab());
 
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  public void OI() {
-    // button.whenPressed(None);
   }
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
 }

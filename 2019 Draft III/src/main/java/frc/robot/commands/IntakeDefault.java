@@ -7,28 +7,29 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class LiftUp extends Command {
-  public LiftUp() {
+public class IntakeDefault extends Command {
+  public IntakeDefault() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.chassis);
     requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift_state = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.intake.liftAt(-OI.stick_0.getY(Hand.kRight));
   }
 
   // Make this return true when this Command no longer needs to run execute()
