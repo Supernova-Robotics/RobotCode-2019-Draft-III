@@ -1,32 +1,22 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/**
+ * Arm.java
+ * contains motors with encoders for both arm and claw
+ * 
+ */
 
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.commands.ArmDefault;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
 public class Arm extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   public TalonSRX motor_arm_left_0 = new TalonSRX(20);
   public TalonSRX motor_arm_right_0 = new TalonSRX(21);
   public TalonSRX motor_claw = new TalonSRX(22);
@@ -37,6 +27,7 @@ public class Arm extends Subsystem {
   public double global_arm_speed = 0.6;
   public double global_claw_speed = 0.6;
 
+  /* the encoder-readout limit for both direction */
   public boolean limit_enabled = false;
   public double[] arm_limit = {100, 6000};
   public double[] claw_limit = {-1400, 1550};
@@ -59,9 +50,12 @@ public class Arm extends Subsystem {
   }
 
   public double getArmAngle() {
+    /* the number 0 is the id of the sensor on the controller */
     return motor_arm_left_0.getSelectedSensorPosition(0);
   }
+
   public double getArmVel() {
+    /* the number 0 is the id of the sensor on the controller */
     return motor_arm_left_0.getSelectedSensorVelocity(0);
   }
 
@@ -69,6 +63,9 @@ public class Arm extends Subsystem {
     arm_setpoint = setpoint;
   }
 
+  /** 
+   * self-written PD control
+   */
   public double calculateArmPID() {
     arm_error = arm_setpoint - getArmAngle();
     arm_output = 0.005 * arm_error - 0.001 * getArmVel();
@@ -76,7 +73,7 @@ public class Arm extends Subsystem {
   }
 
   public void armLiftAt(double vel) {
-    double angle = motor_arm_left_0.getSelectedSensorPosition(0);
+    double angle = getArmAngle();
     if (!limit_enabled || (!(vel < 0 && angle < arm_limit[0]) && !(vel > 0 && angle > arm_limit[1]))){
       motor_arm_left_0.set(ControlMode.PercentOutput, global_arm_speed * vel);
       motor_arm_right_0.set(ControlMode.PercentOutput, global_arm_speed * vel);
@@ -89,6 +86,7 @@ public class Arm extends Subsystem {
   public double getClawAngle() {
     return -motor_claw.getSelectedSensorPosition(0);
   }
+
   public double getClawVel() {
     return -motor_claw.getSelectedSensorVelocity(0);
   }
@@ -134,6 +132,9 @@ public class Arm extends Subsystem {
     }
   }
 
+  /**
+   * to log the relevant information to SD
+   */
   public void log() {
     SmartDashboard.putNumber("Arm Pos", motor_arm_left_0.getSelectedSensorPosition(0));
     SmartDashboard.putNumber("Claw Pos", getClawAngle());

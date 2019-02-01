@@ -1,25 +1,19 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
+/**
+ * Chassis.java
+ * contains motors on the chassis and a gyro for navigation.
+ * 定义了底盘电机和一个陀螺仪。
+ */
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.commands.ChassisDefault;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
 public class Chassis extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   public SpeedController motor_left_0 = new WPI_VictorSPX(10);
   public SpeedController motor_left_1 = new WPI_VictorSPX(11);
   public SpeedController motor_left_2 = new WPI_VictorSPX(12);
@@ -28,11 +22,20 @@ public class Chassis extends Subsystem {
   public SpeedController motor_right_2 = new WPI_VictorSPX(15);
   public SpeedController motor_roller = new Spark(0);
 
-  public double global_y_speed = 1.0;
+  /* using the 'default FRC gyro' */
+  /* 使用的是默认的插在RIO上的陀螺仪 */
+  public ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
+  /* the coefficient for the speed of the chassis motor */
+  /* 电机速度系数，用来控制全局电机最大转速 */
+  public double global_y_speed = 0.7;
   public double global_z_speed = 0.4;
   
   public Chassis() {
     super();
+    
+    /* correct the direction of motor: forward is positive */
+    /* 修正电机方向，向前为正 */
     motor_left_0.setInverted(false);
     motor_left_1.setInverted(false);
     motor_left_2.setInverted(false);
@@ -41,6 +44,11 @@ public class Chassis extends Subsystem {
     motor_right_2.setInverted(true);
   }
   
+  /**
+   * method for driving the chassis.
+   * @param y: forward is positive
+   * @param z: CCW is positive
+   */
   public void drive(double y, double z) {
     motor_left_0.set(global_y_speed * y - global_z_speed * z);
     motor_left_1.set(global_y_speed * y - global_z_speed * z);
@@ -49,8 +57,11 @@ public class Chassis extends Subsystem {
     motor_right_1.set(global_y_speed * y + global_z_speed * z);
     motor_right_2.set(global_y_speed * y + global_z_speed * z);
   }
+
   @Override
   public void initDefaultCommand() {
+    /* the default command of this subsystem is to drive according
+    to joystick input. */
     setDefaultCommand(new ChassisDefault());
   }
 }
