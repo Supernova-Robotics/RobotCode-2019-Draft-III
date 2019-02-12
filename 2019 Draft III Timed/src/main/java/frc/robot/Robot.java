@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    System.out.println(intake_angle.getAverageValue());
+    // System.out.println(intake_angle.getAverageValue());
   }
 
   public void intake_set(double vel) {
