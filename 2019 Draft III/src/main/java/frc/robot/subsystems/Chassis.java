@@ -10,17 +10,17 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.RobotMap;
 import frc.robot.commands.ChassisDefault;
 
 public class Chassis extends Subsystem {
-  public SpeedController motor_left_0 = new WPI_VictorSPX(10);
-  public SpeedController motor_left_1 = new WPI_VictorSPX(11);
-  public SpeedController motor_left_2 = new WPI_VictorSPX(12);
-  public SpeedController motor_right_0 = new WPI_VictorSPX(13);
-  public SpeedController motor_right_1 = new WPI_VictorSPX(14);
-  public SpeedController motor_right_2 = new WPI_VictorSPX(15);
-  public SpeedController motor_roller = new Spark(0);
+  public SpeedController motor_left_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[0]);
+  public SpeedController motor_left_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[1]);
+  public SpeedController motor_left_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[2]);
+  public SpeedController motor_right_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[0]);
+  public SpeedController motor_right_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[1]);
+  public SpeedController motor_right_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[2]);
+  public SpeedController motor_roller = new Spark(RobotMap.p_PWM_chassis_roller);
 
   /* using the 'default FRC gyro' */
   /* 使用的是默认的插在RIO上的陀螺仪 */

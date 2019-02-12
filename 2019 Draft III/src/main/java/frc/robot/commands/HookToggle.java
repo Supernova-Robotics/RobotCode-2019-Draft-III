@@ -1,29 +1,30 @@
-/** 
- * ArmDefault.java
+/**
+ * IntakeDefault.java
  */
 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ArmDefault extends Command {
-  public ArmDefault() {
-    requires(Robot.arm);
+public class HookToggle extends Command {
+  public HookToggle() {
   }
 
   @Override
   protected void execute() {
-    
-    Robot.arm.setArmVel(-OI.stick_1.getY(Hand.kLeft));
-    Robot.arm.setClawVel(0.15 + -0.5 * OI.stick_1.getY(Hand.kRight));
+    Robot.hook.toggleHook(true);
   }
 
   @Override
   protected boolean isFinished() {
     return false;
+  }
+
+  @Override
+  protected void end() {
+    Robot.hook.toggleHook(false);
   }
 }

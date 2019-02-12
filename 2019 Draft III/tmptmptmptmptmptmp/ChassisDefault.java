@@ -1,5 +1,5 @@
-/** 
- * ArmDefault.java
+/**
+ * ChassisDefault.java
  */
 
 package frc.robot.commands;
@@ -10,16 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ArmDefault extends Command {
-  public ArmDefault() {
-    requires(Robot.arm);
+public class ChassisDefault extends Command {
+  public ChassisDefault() {
+    requires(Robot.chassis);
   }
 
   @Override
   protected void execute() {
-    
-    Robot.arm.setArmVel(-OI.stick_1.getY(Hand.kLeft));
-    Robot.arm.setClawVel(0.15 + -0.5 * OI.stick_1.getY(Hand.kRight));
+    Robot.chassis.drive(-OI.stick_0.getY(Hand.kLeft), OI.stick_0.getTriggerAxis(Hand.kLeft) - OI.stick_0.getTriggerAxis(Hand.kRight));
   }
 
   @Override

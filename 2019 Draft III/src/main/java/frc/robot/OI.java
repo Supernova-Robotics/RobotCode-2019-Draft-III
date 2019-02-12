@@ -9,13 +9,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.HookToggle;
+import frc.robot.commands.IntakeCollect;
+import frc.robot.commands.IntakeLiftTo;
 
-import frc.robot.commands.HookExtend;
-import frc.robot.commands.HookGrab;
-import frc.robot.commands.IntakeStartCollect;
-import frc.robot.commands.IntakeStartPush;
-import frc.robot.commands.OpenClaw;
-import frc.robot.commands.PushClaw;
 
 public class OI {
   /* initialize two Xbox controller with id 0 and 1 on DS */
@@ -34,12 +31,10 @@ public class OI {
   public OI() {
     /* binding buttons to commands */
     /* 将任务 (command) 绑定到按钮 */
-    stick_0_A.toggleWhenPressed(new IntakeStartCollect());
-    stick_0_B.toggleWhenPressed(new IntakeStartPush());
+    stick_1_A.whileHeld(new IntakeCollect(0.4));
+    stick_1_B.whileHeld(new IntakeCollect(-0.8));
+    stick_1_X.whenPressed(new IntakeLiftTo(3849));
     
-    stick_1_A.whenPressed(new PushClaw());
-    stick_1_B.toggleWhenPressed(new OpenClaw());
-    stick_1_X.toggleWhenPressed(new HookExtend());
-    stick_1_Y.toggleWhenPressed(new HookGrab());
+    stick_0_A.toggleWhenPressed(new HookToggle());
   }
 }

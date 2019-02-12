@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
     UsbCamera aliment_cam = CameraServer.getInstance().startAutomaticCapture(0);
     // TODO: codes for CV.
 
-    UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);
-    driver_cam.setResolution(640, 480);
+    // UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);
+    // driver_cam.setResolution(640, 480);
 
 
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    arm.log();
+
   }
 
   /**

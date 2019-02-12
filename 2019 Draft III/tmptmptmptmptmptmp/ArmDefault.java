@@ -17,9 +17,8 @@ public class ArmDefault extends Command {
 
   @Override
   protected void execute() {
-    
-    Robot.arm.setArmVel(-OI.stick_1.getY(Hand.kLeft));
-    Robot.arm.setClawVel(0.15 + -0.5 * OI.stick_1.getY(Hand.kRight));
+    Robot.arm.armLiftAt(OI.stick_1.getY(Hand.kLeft));
+    Robot.arm.clawLiftAt(OI.stick_1.getY(Hand.kRight));
   }
 
   @Override
