@@ -27,7 +27,7 @@ public class Intake extends Subsystem {
     motor_collector.setInverted(true);
   }
 
-  public double getLiftAng() {
+  public double getLiftPos() {
     return lift_sensor.getAverageValue();
   }
   

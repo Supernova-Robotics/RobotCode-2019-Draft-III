@@ -34,11 +34,11 @@ public class Arm extends Subsystem {
     motor_shooter.setInverted(true);
   }
 
-  public double getArmAng() {
+  public double getArmPos() {
     return -motor_arm_left.getSelectedSensorPosition();
   }
 
-  public double getClawAng() {
+  public double getClawPos() {
     return -motor_claw.getSelectedSensorPosition();
   }
 
@@ -52,8 +52,8 @@ public class Arm extends Subsystem {
         motor_arm_right.set(ControlMode.PercentOutput, global_arm_speed * global_arm_speed * vel);
       }
     } else {
-      System.out.println("arm "+getArmAng());
-      System.out.println("claw "+getClawAng());
+      System.out.println("arm "+getArmPos());
+      System.out.println("claw "+getClawPos());
       motor_arm_left.set(ControlMode.PercentOutput, global_arm_speed * vel);
       motor_arm_right.set(ControlMode.PercentOutput, global_arm_speed * vel);
     }

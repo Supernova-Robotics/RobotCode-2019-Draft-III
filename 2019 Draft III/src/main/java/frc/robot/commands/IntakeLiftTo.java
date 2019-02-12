@@ -19,7 +19,7 @@ public class IntakeLiftTo extends Command {
 
   @Override
   protected void execute() {
-    if (angle_ < Robot.intake.getLiftAng()) {
+    if (angle_ < Robot.intake.getLiftPos()) {
       Robot.intake.setLiftVel(-0.4);
     } else {
       Robot.intake.setLiftVel(0.5);
@@ -28,7 +28,7 @@ public class IntakeLiftTo extends Command {
 
   @Override
   protected boolean isFinished() {
-    return Math.abs(angle_ - Robot.intake.getLiftAng()) < threshold
+    return Math.abs(angle_ - Robot.intake.getLiftPos()) < threshold
      || Math.abs(OI.stick_0.getY(Hand.kRight)) > 0.2;
   }
 
