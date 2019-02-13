@@ -15,8 +15,8 @@ public class Hook extends Subsystem {
   private Solenoid hook_extender = new Solenoid(RobotMap.p_PEN_hook_extender);
   private Servo hook = new Servo(RobotMap.p_PWM_hook_servo);
   
-  public static final double servo_open_ang = 0.3;
-  public static final double servo_close_ang = 0.9;
+  public static final double servo_open_ang = RobotMap.hook_servo_open_ang;
+  public static final double servo_close_ang = RobotMap.hook_servo_close_ang;
 
   public Hook() {
     super();

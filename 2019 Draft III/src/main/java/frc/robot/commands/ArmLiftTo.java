@@ -19,7 +19,7 @@ public class ArmLiftTo extends Command {
   @Override
   protected void execute() {
     /* 0212: PID算法，现在只加了P，先试试效果 */
-    Robot.arm.setSetpoint(tar_);
+    Robot.arm.setTarget(tar_);
     Robot.arm.setVel(Robot.arm.getPID());
   }
 

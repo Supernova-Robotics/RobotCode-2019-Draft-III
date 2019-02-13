@@ -1,6 +1,6 @@
 /**
- * Arm.java
- * contains motors with encoders for both arm and claw
+ * Claw.java
+ * contains motors with encoders for claw
  * 
  */
 
@@ -18,13 +18,13 @@ import frc.robot.commands.ClawDefault;
 public class Claw extends Subsystem {
   private TalonSRX lift_motor = new TalonSRX(RobotMap.p_CAN_claw);
   private SpeedController shooter_motor = new VictorSP(RobotMap.p_PWM_claw_shooter);
-  public double global_claw_speed = 0.6;
+  public double global_claw_speed = RobotMap.claw_speed;
 
-  private final double kP = 0.01;
-  private double setpoint = 0;
+  private final double kP = RobotMap.claw_kP;
+  private double target = 0;
   public boolean enable_pid = true;
 
-  public double adjust_intensity = 10;
+  public double adjust_intensity = RobotMap.claw_adjust_intensity;
 
   public Claw() {
     super();
@@ -41,18 +41,18 @@ public class Claw extends Subsystem {
   }
 
   public double getPID() {
-    double error = setpoint - getPos();
+    double error = target - getPos();
     double vel = kP * error;
     vel = Math.max(-1.5, Math.min(1.5, vel));
     return vel;
   }
 
   public void adjustSetpoint(double val) {
-    setpoint += adjust_intensity * val;
+    target += adjust_intensity * val;
   }
 
   public void setSetpoint(double val) {
-    setpoint = val;
+    target = val;
   }
 
   public void setVel(double vel) {
@@ -65,7 +65,7 @@ public class Claw extends Subsystem {
 
   public void log() {
     SmartDashboard.putNumber("Claw Position", getPos());
-    SmartDashboard.putNumber("Claw Setpoint", setpoint);
+    SmartDashboard.putNumber("Claw Setpoint", target);
   }
 
   @Override

@@ -26,8 +26,8 @@ public class Chassis extends Subsystem {
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   /* the coefficient for the speed of the chassis motor */
-  public double global_y_speed = 0.7;
-  public double global_z_speed = 0.4;
+  public double global_y_speed = RobotMap.chassis_speed_y;
+  public double global_z_speed = RobotMap.chassis_speed_z;
   
   public Chassis() {
     super();

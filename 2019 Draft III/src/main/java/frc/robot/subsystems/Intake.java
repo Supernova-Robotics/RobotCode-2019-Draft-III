@@ -17,7 +17,7 @@ public class Intake extends Subsystem {
   private SpeedController motor_lift = new Spark(RobotMap.p_PWM_intake_lift);
   private SpeedController motor_collector = new Spark(RobotMap.p_PWM_intake_collector);
   private AnalogInput lift_sensor = new AnalogInput(RobotMap.p_ANA_intake_encoder);
-  public double global_lift_speed = 0.8;
+  public double global_lift_speed = RobotMap.intake_global_lift_speed;
   
   public Intake() {
     super();
