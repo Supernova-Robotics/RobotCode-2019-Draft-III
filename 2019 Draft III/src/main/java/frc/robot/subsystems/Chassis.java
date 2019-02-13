@@ -14,17 +14,17 @@ import frc.robot.RobotMap;
 import frc.robot.commands.ChassisDefault;
 
 public class Chassis extends Subsystem {
-  public SpeedController motor_left_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[0]);
-  public SpeedController motor_left_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[1]);
-  public SpeedController motor_left_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[2]);
-  public SpeedController motor_right_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[0]);
-  public SpeedController motor_right_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[1]);
-  public SpeedController motor_right_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[2]);
-  public SpeedController motor_roller = new Spark(RobotMap.p_PWM_chassis_roller);
+  private SpeedController motor_left_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[0]);
+  private SpeedController motor_left_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[1]);
+  private SpeedController motor_left_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_left[2]);
+  private SpeedController motor_right_0 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[0]);
+  private SpeedController motor_right_1 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[1]);
+  private SpeedController motor_right_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[2]);
+  private SpeedController motor_roller = new Spark(RobotMap.p_PWM_chassis_roller);
 
   /* using the 'default FRC gyro' */
   /* 使用的是默认的插在RIO上的陀螺仪 */
-  public ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   /* the coefficient for the speed of the chassis motor */
   /* 电机速度系数，用来控制全局电机最大转速 */
@@ -56,6 +56,9 @@ public class Chassis extends Subsystem {
     motor_right_0.set(global_y_speed * y + global_z_speed * z);
     motor_right_1.set(global_y_speed * y + global_z_speed * z);
     motor_right_2.set(global_y_speed * y + global_z_speed * z);
+  }
+
+  public void log() {
   }
 
   @Override

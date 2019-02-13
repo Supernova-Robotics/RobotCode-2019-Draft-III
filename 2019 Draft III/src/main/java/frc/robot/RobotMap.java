@@ -20,8 +20,10 @@ public class RobotMap {
 
   /* Arm */
   public static final int[] p_CAN_arm = {20, 21};
+
+  /* Claw */
   public static final int p_CAN_claw = 22;
-  public static final int p_PWM_arm_shooter = 1;
+  public static final int p_PWM_claw_shooter = 1;
   public static final int p_DIG_limit = 0; 
 
   /* Hook */

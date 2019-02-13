@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.IntakeDefault;
 
 public class Intake extends Subsystem {
-  
-  public SpeedController motor_lift = new Spark(RobotMap.p_PWM_intake_lift);
-  public SpeedController motor_collector = new Spark(RobotMap.p_PWM_intake_collector);
-  public AnalogInput lift_sensor = new AnalogInput(RobotMap.p_ANA_intake_encoder);
+  private SpeedController motor_lift = new Spark(RobotMap.p_PWM_intake_lift);
+  private SpeedController motor_collector = new Spark(RobotMap.p_PWM_intake_collector);
+  private AnalogInput lift_sensor = new AnalogInput(RobotMap.p_ANA_intake_encoder);
   public double global_lift_speed = 0.8;
   
   public Intake() {
@@ -37,6 +37,10 @@ public class Intake extends Subsystem {
 
   public void setCollectorVel(double vel) {
     motor_collector.set(vel);
+  }
+
+  public void log() {
+    SmartDashboard.putNumber("Intake Position", getLiftPos());
   }
 
   @Override
