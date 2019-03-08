@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Const;
 import frc.robot.Robot;
 
-public class IntakeCollect extends Command {
-  public IntakeCollect() {
+public class IntakeShoot extends Command {
+  public IntakeShoot() {
   }
 
   @Override
   protected void execute() {
-    Robot.intake.setCollectorVel(Const.intake_speed[0]);
-    Robot.claw.setShooterVel(Const.shooter_speed[0]);
+    Robot.intake.setCollectorVel(Const.intake_speed[1]);
+    Robot.claw.setShooterVel(Const.shooter_speed[1]);
   }
 
   @Override

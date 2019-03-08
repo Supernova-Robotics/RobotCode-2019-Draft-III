@@ -9,10 +9,12 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ArmLiftTo extends Command {
-  private static final double threshold = 10;
+  private static final double threshold = 20;
   private double tar_;
 
   public ArmLiftTo(double tar) {
+    super(4);
+    requires(Robot.arm);
     tar_ = tar;
   }
 
@@ -27,7 +29,7 @@ public class ArmLiftTo extends Command {
   @Override
   protected boolean isFinished() {
     return Math.abs(tar_ - Robot.arm.getPos()) < threshold
-          || OI.getArmAxis() != 0;
+          || OI.getArmAxis() != 0 || isTimedOut();
   }
 
   @Override

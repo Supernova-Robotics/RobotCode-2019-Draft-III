@@ -5,19 +5,20 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Const;
 import frc.robot.RobotMap;
 import frc.robot.commands.IntakeDefault;
 
 public class Intake extends Subsystem {
   private SpeedController motor_lift = new Spark(RobotMap.p_PWM_intake_lift);
   private SpeedController motor_collector = new Spark(RobotMap.p_PWM_intake_collector);
-  private AnalogInput lift_sensor = new AnalogInput(RobotMap.p_ANA_intake_encoder);
-  public double global_lift_speed = RobotMap.intake_global_lift_speed;
+
+  private DigitalInput limit_sw = new DigitalInput(RobotMap.p_DIG_intake_limit);
   
   public Intake() {
     super();
@@ -27,12 +28,20 @@ public class Intake extends Subsystem {
     motor_collector.setInverted(true);
   }
 
-  public double getLiftPos() {
-    return lift_sensor.getAverageValue();
+  public boolean getLimit() {
+    return !limit_sw.get();
   }
   
   public void setLiftVel(double vel) {
-    motor_lift.set(global_lift_speed * vel);
+    if (vel < 0) {
+      if (!limit_sw.get()) {
+        motor_lift.set(0);
+      } else {
+        motor_lift.set(Const.global_lift_speed * vel);
+      }
+    } else {
+      motor_lift.set(Const.global_lift_speed * vel);
+    }
   }
 
   public void setCollectorVel(double vel) {
@@ -40,7 +49,7 @@ public class Intake extends Subsystem {
   }
 
   public void log() {
-    SmartDashboard.putNumber("Intake Position", getLiftPos());
+    SmartDashboard.putBoolean("Intake Limit", !limit_sw.get());
   }
 
   @Override

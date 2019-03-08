@@ -6,9 +6,20 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ArmLiftTo;
 import frc.robot.commands.ClawLiftTo;
+import frc.robot.commands.ClimbAdvance;
+import frc.robot.commands.ChassisChangeSpeed;
+import frc.robot.commands.ExtensionToggle;
 import frc.robot.commands.HookToggle;
+import frc.robot.commands.RobotChangeState;
+import frc.robot.commands.SupportIn;
+import frc.robot.commands.SupportOut;
 import frc.robot.commands.IntakeCollect;
-import frc.robot.commands.IntakeLiftTo;
+import frc.robot.commands.IntakeShoot;
+import frc.robot.commands.OneButtonClimbUp;
+import frc.robot.commands.Tester;
+import frc.robot.commands.ToCollect;
+import frc.robot.commands.ToMiddle;
+import frc.robot.commands.ToTop;
 
 
 public class OI {
@@ -21,24 +32,47 @@ public class OI {
   public static Button stick_0_B = new JoystickButton(stick_0, 2);
   public static Button stick_0_X = new JoystickButton(stick_0, 3);
   public static Button stick_0_Y = new JoystickButton(stick_0, 4);
+  public static Button stick_0_back = new JoystickButton(stick_0, 7);
+  public static Button stick_0_start = new JoystickButton(stick_0, 8);
+  public static Button stick_0_LBumper = new JoystickButton(stick_0, 5);
+  public static Button stick_0_RBumper = new JoystickButton(stick_0, 6);
+  public static XboxPOV stick_0_UP = new XboxPOV(stick_0, 0);
+  public static XboxPOV stick_0_DOWN = new XboxPOV(stick_0, 180);
   
   public static Button stick_1_A = new JoystickButton(stick_1, 1);
   public static Button stick_1_B = new JoystickButton(stick_1, 2);
   public static Button stick_1_X = new JoystickButton(stick_1, 3);
   public static Button stick_1_Y = new JoystickButton(stick_1, 4);
-  
+  public static XboxPOV stick_1_UP = new XboxPOV(stick_1, 0);
+  public static XboxPOV stick_1_RIGHT = new XboxPOV(stick_1, 90);
+  public static XboxPOV stick_1_DOWN = new XboxPOV(stick_1, 180);
   public static double joystick_threshold = 0.15;
 
   public OI() {
     /* binding buttons to commands */
-    stick_0_A.whileHeld(new IntakeCollect(0.4));
-    stick_0_B.whileHeld(new IntakeCollect(-0.8));
-    stick_0_X.whenPressed(new IntakeLiftTo(3849));
-    stick_0_Y.toggleWhenPressed(new HookToggle());
+    /* 将任务 (command) 绑定到按钮 */
+    // stick_0_A.whenPressed(new SupportOut());
+    // stick_0_B.whenPressed(new SupportIn());
+    // stick_0_X.whenPressed(new IntakeLiftTo(3924));
+    // stick_0_Y.whenPressed(new IntakeLiftTo(3850));
     
-    stick_1_X.whenPressed(new ArmLiftTo(100));
-    stick_1_Y.whenPressed(new ClawLiftTo(100));
+    stick_0_UP.whenPressed(new SupportIn());
+    stick_0_DOWN.whileHeld(new SupportOut());
+    stick_0_back.whenPressed(new OneButtonClimbUp());
+    stick_0_start.whileHeld(new ChassisChangeSpeed());
+    
 
+    stick_0_LBumper.whileHeld(new ClimbAdvance());
+    // stick_0_RBumper.whenPressed(new RobotChangeState(false));
+
+    stick_1_UP.whenPressed(new ToTop());
+    stick_1_RIGHT.whenPressed(new ToMiddle());
+    stick_1_DOWN.whenPressed(new ToCollect());
+    
+    stick_1_A.whileHeld(new IntakeCollect());
+    stick_1_B.whileHeld(new IntakeShoot());
+    stick_1_X.toggleWhenPressed(new HookToggle());
+    stick_1_Y.toggleWhenPressed(new ExtensionToggle());
   }
 
   public static double unify(double val) {
@@ -49,7 +83,10 @@ public class OI {
   }
 
   public static double[] getDriveAxis() {
-    double[] result = {unify(-stick_0.getY(Hand.kLeft)), unify(stick_0.getTriggerAxis(Hand.kLeft) - stick_0.getTriggerAxis(Hand.kRight))};
+    double[] result = {
+      unify(-stick_0.getY(Hand.kLeft)), 
+      unify(stick_0.getTriggerAxis(Hand.kLeft) - stick_0.getTriggerAxis(Hand.kRight))
+    };
     return result;
   }
 

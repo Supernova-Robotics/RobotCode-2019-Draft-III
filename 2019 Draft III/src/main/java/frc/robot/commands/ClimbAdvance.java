@@ -5,17 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Const;
 import frc.robot.Robot;
 
-public class IntakeCollect extends Command {
-  public IntakeCollect() {
+public class ClimbAdvance extends Command {
+  public ClimbAdvance() {
+    
   }
 
   @Override
   protected void execute() {
-    Robot.intake.setCollectorVel(Const.intake_speed[0]);
-    Robot.claw.setShooterVel(Const.shooter_speed[0]);
+    Robot.chassis.drive(0.1, 0);
+    Robot.chassis.setRollerVel(0.2);
+    Robot.intake.setCollectorVel(0.3);
   }
 
   @Override
@@ -25,8 +26,10 @@ public class IntakeCollect extends Command {
 
   @Override
   protected void end() {
+    Robot.chassis.drive(0, 0);
+    Robot.chassis.setRollerVel(0);
+    Robot.intake.setLiftVel(0);
     Robot.intake.setCollectorVel(0);
-    Robot.claw.setShooterVel(0);
   }
 
   @Override

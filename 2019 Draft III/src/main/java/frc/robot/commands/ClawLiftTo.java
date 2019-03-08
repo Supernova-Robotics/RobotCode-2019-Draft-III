@@ -13,6 +13,8 @@ public class ClawLiftTo extends Command {
   private double tar_;
 
   public ClawLiftTo(double tar) {
+    super(2.5);
+    requires(Robot.claw);
     tar_ = tar;
   }
 
@@ -26,7 +28,7 @@ public class ClawLiftTo extends Command {
   @Override
   protected boolean isFinished() {
     return Math.abs(tar_ - Robot.claw.getPos()) < threshold
-          || OI.getClawAxis() != 0;
+          || OI.getClawAxis() != 0 || isTimedOut();
   }
 
   @Override

@@ -1,21 +1,20 @@
 /**
- * IntakeDefault.java
+ * ChassisDefault.java
  */
 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Const;
 import frc.robot.Robot;
 
-public class IntakeCollect extends Command {
-  public IntakeCollect() {
+public class ChassisChangeSpeed extends Command {
+  public ChassisChangeSpeed() {
+    
   }
 
   @Override
   protected void execute() {
-    Robot.intake.setCollectorVel(Const.intake_speed[0]);
-    Robot.claw.setShooterVel(Const.shooter_speed[0]);
+    Robot.chassis.speed_mode = 1;
   }
 
   @Override
@@ -25,8 +24,7 @@ public class IntakeCollect extends Command {
 
   @Override
   protected void end() {
-    Robot.intake.setCollectorVel(0);
-    Robot.claw.setShooterVel(0);
+    Robot.chassis.speed_mode = 0;
   }
 
   @Override

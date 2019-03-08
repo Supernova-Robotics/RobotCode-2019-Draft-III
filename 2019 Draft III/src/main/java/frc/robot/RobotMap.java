@@ -12,6 +12,9 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
+
+
+
   /* Chassis */
   public static final int[] p_CAN_chassis_left = {10, 11, 12};
   public static final int[] p_CAN_chassis_right = {13, 14, 15};
@@ -28,20 +31,15 @@ public class RobotMap {
   /* Claw */
   public static final int p_CAN_claw = 22;
   public static final int p_PWM_claw_shooter = 1;
-  public static final int p_DIG_limit = 0; 
-  public static final double claw_speed = 0.6;
-  public static final double claw_kP = 0.01;
-  public static final double claw_adjust_intensity = 10;
+  public static final int p_DIG_arm_limit = 0;
 
   /* Hook */
   public static final int p_PWM_hook_servo = 9;
-  public static final int p_PEN_hook_extender = 0;
-  public static final double hook_servo_open_ang = 0.3;
-  public static final double hook_servo_close_ang = 0.9;
+  public static final int p_PEN_hook_extender = 1;
     
   /* Intake */
   public static final int p_PWM_intake_lift = 2;
   public static final int p_PWM_intake_collector = 3;
   public static final int p_ANA_intake_encoder = 0;
-  public static final double intake_global_lift_speed = 0.8;
+  public static final int p_DIG_intake_limit = 2;
 }

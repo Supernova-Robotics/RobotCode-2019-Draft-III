@@ -25,6 +25,8 @@ public class Robot extends TimedRobot {
 
   public static OI oi = new OI();
 
+  public static boolean lift_state = false;
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -35,8 +37,8 @@ public class Robot extends TimedRobot {
     UsbCamera aliment_cam = CameraServer.getInstance().startAutomaticCapture(0);
     // codes for CV.
 
-    // UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);
-    // driver_cam.setResolution(640, 480);
+    UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);
+    driver_cam.setResolution(640, 480);
 
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -108,7 +110,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     claw.enable_pid = false;
     arm.setVel(-0.3 * OI.stick_1.getY(Hand.kLeft));
-    claw.setVel(-0.7 * OI.stick_1.getY(Hand.kRight));
+    claw.setVel(-0.9 * OI.stick_1.getY(Hand.kRight));
     arm.resetSensor();
     claw.resetSensor();
   }
