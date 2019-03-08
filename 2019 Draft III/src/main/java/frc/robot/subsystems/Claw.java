@@ -13,18 +13,17 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.Const;
 import frc.robot.commands.ClawDefault;
 
 public class Claw extends Subsystem {
   private TalonSRX lift_motor = new TalonSRX(RobotMap.p_CAN_claw);
   private SpeedController shooter_motor = new VictorSP(RobotMap.p_PWM_claw_shooter);
-  public double global_claw_speed = 0.6;
 
-  private final double kP = 0.01;
-  private double setpoint = 0;
+
+  private final double kP = 0.005;
+  private double setpoint = 800;
   public boolean enable_pid = true;
-
-  public double adjust_intensity = 10;
 
   public Claw() {
     super();
@@ -33,7 +32,7 @@ public class Claw extends Subsystem {
   }
 
   public void resetSensor() {
-    lift_motor.setSelectedSensorPosition(0);
+    lift_motor.setSelectedSensorPosition(-1000);
   }
 
   public double getPos() {
@@ -48,7 +47,7 @@ public class Claw extends Subsystem {
   }
 
   public void adjustSetpoint(double val) {
-    setpoint += adjust_intensity * val;
+    setpoint += Const.adjust_intensity * val;
   }
 
   public void setSetpoint(double val) {
@@ -56,7 +55,7 @@ public class Claw extends Subsystem {
   }
 
   public void setVel(double vel) {
-    lift_motor.set(ControlMode.PercentOutput, global_claw_speed * vel);
+    lift_motor.set(ControlMode.PercentOutput, Const.global_claw_speed * vel);
   }
 
   public void setShooterVel(double vel) {

@@ -7,9 +7,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Const;
 import frc.robot.RobotMap;
 import frc.robot.commands.ChassisDefault;
 
@@ -22,14 +24,16 @@ public class Chassis extends Subsystem {
   private SpeedController motor_right_2 = new WPI_VictorSPX(RobotMap.p_CAN_chassis_right[2]);
   private SpeedController motor_roller = new Spark(RobotMap.p_PWM_chassis_roller);
 
+  private Solenoid lift_up = new Solenoid(RobotMap.p_PEN_lift_up);
+
   /* using the 'default FRC gyro' */
   /* 使用的是默认的插在RIO上的陀螺仪 */
-  private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  // private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   /* the coefficient for the speed of the chassis motor */
   /* 电机速度系数，用来控制全局电机最大转速 */
-  public double global_y_speed = 0.7;
-  public double global_z_speed = 0.4;
+
+  public int speed_mode = 0;
   
   public Chassis() {
     super();
@@ -50,12 +54,20 @@ public class Chassis extends Subsystem {
    * @param z: CCW is positive
    */
   public void drive(double y, double z) {
-    motor_left_0.set(global_y_speed * y - global_z_speed * z);
-    motor_left_1.set(global_y_speed * y - global_z_speed * z);
-    motor_left_2.set(global_y_speed * y - global_z_speed * z);
-    motor_right_0.set(global_y_speed * y + global_z_speed * z);
-    motor_right_1.set(global_y_speed * y + global_z_speed * z);
-    motor_right_2.set(global_y_speed * y + global_z_speed * z);
+    motor_left_0.set(Const.global_y_speed[speed_mode] * y - Const.global_z_speed[speed_mode] * z);
+    motor_left_1.set(Const.global_y_speed[speed_mode] * y - Const.global_z_speed[speed_mode] * z);
+    motor_left_2.set(Const.global_y_speed[speed_mode] * y - Const.global_z_speed[speed_mode] * z);
+    motor_right_0.set(Const.global_y_speed[speed_mode] * y + Const.global_z_speed[speed_mode] * z);
+    motor_right_1.set(Const.global_y_speed[speed_mode] * y + Const.global_z_speed[speed_mode] * z);
+    motor_right_2.set(Const.global_y_speed[speed_mode] * y + Const.global_z_speed[speed_mode] * z);
+  }
+
+  public void toggleLift(boolean state) {
+    lift_up.set(state);
+  }
+
+  public void setRollerVel(double vel) {
+    motor_roller.set(vel);
   }
 
   public void log() {

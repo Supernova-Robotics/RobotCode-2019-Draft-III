@@ -11,16 +11,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Const;
 import frc.robot.RobotMap;
 import frc.robot.commands.ArmDefault;
 
 public class Arm extends Subsystem {
   private TalonSRX motor_arm_left = new TalonSRX(RobotMap.p_CAN_arm[0]);
   private TalonSRX motor_arm_right = new TalonSRX(RobotMap.p_CAN_arm[1]);
-  private DigitalInput arm_limit_sw = new DigitalInput(RobotMap.p_DIG_limit);
-  public double[] global_arm_speed = {0.6, 0.4};
+  private DigitalInput arm_limit_sw = new DigitalInput(RobotMap.p_DIG_arm_limit);
+  
 
-  private final double kP = 0.003, kD = 0.0001;
+  private final double kP = 0.004, kD = 0.00015;
   private double setpoint = 0;
 
   public Arm() {
@@ -57,16 +58,16 @@ public class Arm extends Subsystem {
   public void setVel(double vel) {
     if (vel > 0) {
       /* upward */
-      motor_arm_left.set(ControlMode.PercentOutput, global_arm_speed[0] * vel);
-      motor_arm_right.set(ControlMode.PercentOutput, global_arm_speed[0] * vel);
+      motor_arm_left.set(ControlMode.PercentOutput, Const.global_arm_speed[0] * vel);
+      motor_arm_right.set(ControlMode.PercentOutput, Const.global_arm_speed[0] * vel);
     } else {
       /* downward */
       if (!arm_limit_sw.get()) {
         motor_arm_left.set(ControlMode.PercentOutput, 0);
         motor_arm_right.set(ControlMode.PercentOutput, 0);
       } else {
-        motor_arm_left.set(ControlMode.PercentOutput, global_arm_speed[1] * vel);
-        motor_arm_right.set(ControlMode.PercentOutput, global_arm_speed[1] * vel);
+        motor_arm_left.set(ControlMode.PercentOutput, Const.global_arm_speed[1] * vel);
+        motor_arm_right.set(ControlMode.PercentOutput, Const.global_arm_speed[1] * vel);
       }
     }
   }

@@ -17,6 +17,11 @@ public class ChassisDefault extends Command {
   protected void execute() {
     double[] val = OI.getDriveAxis();
     Robot.chassis.drive(val[0], val[1]);
+    if (Robot.lift_state) {
+      Robot.chassis.setRollerVel(val[0]);
+    } else {
+      Robot.chassis.setRollerVel(0);
+    }
   }
 
   @Override

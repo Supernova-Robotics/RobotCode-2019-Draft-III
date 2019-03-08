@@ -13,9 +13,13 @@ public class IntakeDefault extends Command {
     requires(Robot.intake);
   }
 
-  @Override
+  @Override 
   protected void execute() {
-    Robot.intake.setLiftVel(OI.getIntakeAxis());
+    if (OI.stick_0_LBumper.get()) {
+      Robot.intake.setLiftVel(OI.getIntakeAxis() - 0.2);
+    } else {
+      Robot.intake.setLiftVel(OI.getIntakeAxis());
+    }
   }
 
   @Override
