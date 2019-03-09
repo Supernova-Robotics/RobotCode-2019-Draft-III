@@ -1,44 +1,43 @@
 /**
- * ClawLiftTo.java
- * NOT TESTED! DO NOT USE!
+ * ChassisDefault.java
  */
 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ClawLiftTo extends Command {
-  double tar_ang;
-  public ClawLiftTo(double target_ang) {
-    requires(Robot.arm);
-    tar_ang = target_ang;
-  }
+  private static final double threshold = 10;
+  private double tar_;
 
-  @Override
-  protected void initialize() {
-    Robot.arm.setClawSetpoint(tar_ang);
+  public ClawLiftTo(double tar) {
+    super(2.5);
+    requires(Robot.claw);
+    tar_ = tar;
   }
 
   @Override
   protected void execute() {
-    double output = Robot.arm.calculateClawPID();
-    Robot.arm.clawLiftAt(output);
+    Robot.claw.setSetpoint(tar_);
+    Robot.claw.setVel(Robot.claw.getPID());
   }
+
 
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.arm.getClawAngle() - tar_ang) < 10;
+    return Math.abs(tar_ - Robot.claw.getPos()) < threshold
+          || OI.getClawAxis() != 0 || isTimedOut();
   }
 
   @Override
   protected void end() {
-    Robot.arm.clawLiftAt(0);
+    Robot.claw.setVel(0);
   }
 
   @Override
   protected void interrupted() {
-    Robot.arm.clawLiftAt(0);
+    end();
   }
 }

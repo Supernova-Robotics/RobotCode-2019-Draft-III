@@ -4,9 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -17,7 +15,13 @@ public class ChassisDefault extends Command {
 
   @Override
   protected void execute() {
-    Robot.chassis.drive(-OI.stick_0.getY(Hand.kLeft), OI.stick_0.getTriggerAxis(Hand.kLeft) - OI.stick_0.getTriggerAxis(Hand.kRight));
+    double[] val = OI.getDriveAxis();
+    Robot.chassis.drive(val[0], val[1]);
+    if (Robot.lift_state) {
+      Robot.chassis.setRollerVel(val[0]);
+    } else {
+      Robot.chassis.setRollerVel(0);
+    }
   }
 
   @Override

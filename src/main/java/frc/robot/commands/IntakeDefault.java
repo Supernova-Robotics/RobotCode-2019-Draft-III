@@ -4,9 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -15,9 +13,13 @@ public class IntakeDefault extends Command {
     requires(Robot.intake);
   }
 
-  @Override
+  @Override 
   protected void execute() {
-    Robot.intake.liftAt(-OI.stick_0.getY(Hand.kRight));
+    if (OI.stick_0_LBumper.get()) {
+      Robot.intake.setLiftVel(OI.getIntakeAxis() - 0.2);
+    } else {
+      Robot.intake.setLiftVel(OI.getIntakeAxis());
+    }
   }
 
   @Override
