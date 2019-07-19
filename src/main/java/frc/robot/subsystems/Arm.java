@@ -27,7 +27,7 @@ public class Arm extends Subsystem {
   public Arm() {
     super();
     motor_arm_left.setInverted(false);
-    motor_arm_right.setInverted(true);
+    motor_arm_right.setInverted(false);
   }
 
   public void resetSensor() {
@@ -62,7 +62,7 @@ public class Arm extends Subsystem {
       motor_arm_right.set(ControlMode.PercentOutput, Const.global_arm_speed[0] * vel);
     } else {
       /* downward */
-      if (!arm_limit_sw.get()) {
+      if (arm_limit_sw.get()) {
         motor_arm_left.set(ControlMode.PercentOutput, 0);
         motor_arm_right.set(ControlMode.PercentOutput, 0);
       } else {

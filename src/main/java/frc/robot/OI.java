@@ -35,10 +35,11 @@ public class OI {
   public static Button stick_0_B = new JoystickButton(stick_0, 2);
   public static Button stick_0_X = new JoystickButton(stick_0, 3);
   public static Button stick_0_Y = new JoystickButton(stick_0, 4);
-  public static Button stick_0_back = new JoystickButton(stick_0, 7);
-  public static Button stick_0_start = new JoystickButton(stick_0, 8);
   public static Button stick_0_LBumper = new JoystickButton(stick_0, 5);
   public static Button stick_0_RBumper = new JoystickButton(stick_0, 6);
+  public static Button stick_0_back = new JoystickButton(stick_0, 7);
+  public static Button stick_0_start = new JoystickButton(stick_0, 8);
+  public static Button stick_0_stickBt = new JoystickButton(stick_0, 9);
   public static XboxPOV stick_0_UP = new XboxPOV(stick_0, 0);
   public static XboxPOV stick_0_DOWN = new XboxPOV(stick_0, 180);
   
@@ -63,12 +64,11 @@ public class OI {
     stick_0_UP.whenPressed(new SupportIn());
     stick_0_DOWN.whileHeld(new SupportOut());
     stick_0_back.whenPressed(new OneButtonClimbUp());
-    stick_0_start.whileHeld(new ChassisChangeSpeed(1)); // slow mode
-    stick_0_start.whileHeld(new ChassisChangeSpeed(2)); // fast mode
     
+    stick_0_start.whileHeld(new ChassisChangeSpeed(1)); // slow mode
+    stick_0_stickBt.whileHeld(new ChassisChangeSpeed(2)); // fast mode
 
     stick_0_LBumper.whileHeld(new ClimbAdvance());
-    // stick_0_RBumper.whenPressed(new RobotChangeState(false));
 
     stick_1_UP.whenPressed(new ToTop());
     stick_1_RIGHT.whenPressed(new ToMiddle());

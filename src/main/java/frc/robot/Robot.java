@@ -8,6 +8,7 @@ package frc.robot;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
 
   public static OI oi = new OI();
 
+  public static Preferences pref;
+
   public static boolean lift_state = false;
 
   Command m_autonomousCommand;
@@ -44,6 +47,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     /* initialize two cameras, one for vision processing and one for the driver. */
 
     UsbCamera driver_cam = CameraServer.getInstance().startAutomaticCapture(1);

@@ -1,9 +1,9 @@
 [
   {
     "name": "2019 Draft III (in project 2019 Draft III)",
-    "file": "D:\\Work\\FRC 2019\\codes\\2019_Draft_III\\2019 Draft III\\build\\libs\\2019 Draft III.jar",
+    "file": "D:\\Work\\FRC\\2019\\codes\\2019_Draft_III\\2019 Draft III\\build\\libs\\2019 Draft III.jar",
     "extensions": [],
-    "librarydir": "D:\\Work\\FRC 2019\\codes\\2019_Draft_III\\2019 Draft III\\build\\tmp\\jniExtractDir",
+    "librarydir": "D:\\Work\\FRC\\2019\\codes\\2019_Draft_III\\2019 Draft III\\build\\tmp\\jniExtractDir",
     "mainclass": "frc.robot.Main"
   }
 ]

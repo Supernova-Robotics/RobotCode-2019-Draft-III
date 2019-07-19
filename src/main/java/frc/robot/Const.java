@@ -17,8 +17,8 @@ public class Const {
   public static final double[] global_arm_speed = {0.6, 0.4};
 
   /* Chassis */
-  public static final double[] global_y_speed = {0.7, 0.3, 1.0};
-  public static final double[] global_z_speed = {0.4, 0.2, 0.4};
+  public static final double[] global_y_speed = {0.3, 0.6, 1.0};
+  public static final double[] global_z_speed = {0.2, 0.4, 0.5};
 
   /* Claw */
   public static final double global_claw_speed = 0.5;

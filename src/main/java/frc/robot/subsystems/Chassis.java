@@ -47,6 +47,14 @@ public class Chassis extends Subsystem {
     motor_right_2.setInverted(true);
   }
   
+
+  public double max(double val) {
+    if (val > 1) {
+      val = 1;
+    }
+    return val;
+  }
+
   /**
    * method for driving the chassis.
    * @param y: forward is positive
